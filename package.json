@@ -1,0 +1,24 @@
+{
+	"name": "bassline",
+	"version": "1.0.0",
+	"description": "DJing application",
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc -w",
+		"lint": "tslint -c tslint.json -p tsconfig.json",
+		"start": "npm run build && electron ./src/js/main.js"
+	},
+	"keywords": [
+		"Electron",
+		"DJ",
+		"Music",
+		"Mix"
+	],
+	"author": "fwcd",
+	"license": "MIT",
+	"devDependencies": {
+		"electron": "^2.0.4",
+		"tslint": "^5.10.0",
+		"typescript": "^2.8.3"
+	}
+}
