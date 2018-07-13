@@ -1,0 +1,99 @@
+body {
+	background-color: #282828;
+	color: white;
+	margin: 0px;
+}
+
+#app-view {
+	display: grid;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	grid-template-rows: 75% 25%;
+}
+
+#mixboard {
+	display: grid;
+	grid-row: 1;
+	grid-column: 1;
+	grid-template-rows: 75% 25%;
+}
+
+#library {
+	background-color: rgb(32, 32, 32);
+	display: grid;
+	grid-row: 2;
+	grid-column: 1;
+}
+
+#deckboard {
+	display: grid;
+	grid-row: 1;
+	grid-column: 1;
+	grid-template-columns: 20% 60% 20%;
+}
+
+#faders {
+	background-color: rgb(66, 66, 66);
+	display: grid;
+	grid-row: 2;
+	grid-column: 1;
+}
+
+#waveformpanel {
+	display: grid;
+	grid-row: 1;
+	grid-column: 2;
+	grid-template-rows: 25% 25% 25% 25%;
+}
+
+#decks-left {
+	grid-row: 1;
+	grid-column: 1;
+}
+
+#decks-right {
+	grid-row: 1;
+	grid-column: 3;
+}
+
+#waveform0 {
+	background-color: rgb(255, 208, 0);
+	grid-row: 1;
+	grid-column: 1;
+}
+
+#waveform1 {
+	background-color: rgb(212, 174, 1);
+	grid-row: 2;
+	grid-column: 1;
+}
+
+#waveform2 {
+	background-color: rgb(185, 151, 0);
+	grid-row: 3;
+	grid-column: 1;
+}
+
+#waveform3 {
+	background-color: rgb(163, 133, 0);
+	grid-row: 4;
+	grid-column: 1;
+}
+
+.upper-deck {
+	background-color: rgb(148, 148, 148);
+	grid-row: 1;
+	grid-column: 1;
+}
+
+.lower-deck {
+	background-color: rgb(116, 116, 116);
+	grid-row: 2;
+	grid-column: 1;
+}
+
+.deckpanel {
+	display: grid;
+	grid-template-rows: 50% 50%;
+}

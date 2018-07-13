@@ -3,8 +3,32 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Bassline</title>
+		<link rel="stylesheet" href="css/styles.css" />
 	</head>
-	<body></body>
+	<body>
+		<div id="app-view">
+			<div id="mixboard">
+				<div id="deckboard">
+					<div class="deckpanel" id="decks-left">
+						<div class="deck upper-deck" id="deck0">&nbsp;</div>
+						<div class="deck lower-deck" id="deck1">&nbsp;</div>
+					</div>
+					<div id="waveformpanel">
+						<div class="waveform" id="waveform0">&nbsp;</div>
+						<div class="waveform" id="waveform1">&nbsp;</div>
+						<div class="waveform" id="waveform2">&nbsp;</div>
+						<div class="waveform" id="waveform3">&nbsp;</div>
+					</div>
+					<div class="deckpanel" id="decks-right">
+						<div class="deck upper-deck" id="deck2">&nbsp;</div>
+						<div class="deck lower-deck" id="deck3">&nbsp;</div>
+					</div>
+				</div>
+				<div id="faders">&nbsp;</div>
+			</div>
+			<div id="library">&nbsp;</div>
+		</div>
+	</body>
 	<script>
 		// You can also require other files to run in this process
 		require('./dist/renderer.js')
