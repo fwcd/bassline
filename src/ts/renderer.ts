@@ -1,3 +1,15 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
+import { DeckView } from "./view/deck/DeckView";
+
+function createDeckById(id: string): void {
+	new DeckView().placeIn(document.getElementById(id));
+}
+
+function rendererMain(): void {
+	createDeckById("deck0");
+	createDeckById("deck1");
+	createDeckById("deck2");
+	createDeckById("deck3");
+	console.log("Running");
+}
+
+rendererMain();

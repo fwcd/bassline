@@ -10,7 +10,7 @@ function createWindow() {
 		width: 800,
 		backgroundColor: "#282828"
 	});
-
+	
 	// and load the index.html of the app.
 	mainWindow.loadFile(path.join(__dirname, "../index.html"));
 
