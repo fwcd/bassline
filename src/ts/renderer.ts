@@ -9,7 +9,6 @@ function rendererMain(): void {
 	createDeckById("deck1");
 	createDeckById("deck2");
 	createDeckById("deck3");
-	console.log("Running");
 }
 
 rendererMain();

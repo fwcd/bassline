@@ -1,4 +1,5 @@
 * Audio playback
+    * Drag and Drop for decks
     * Audio controls
     * Waveforms
     * Fader
