@@ -1,10 +1,10 @@
 import { ListenerList } from "./ListenerList";
 
 export class Observable<T> {
-	private value: T;
+	private value?: T;
 	private listeners = new ListenerList<T>();
 	
-	public constructor(value: T) {
+	public constructor(value?: T) {
 		this.value = value;
 	}
 	
@@ -19,6 +19,10 @@ export class Observable<T> {
 	
 	public listen(listener: (newValue: T) => void): void {
 		this.listeners.listen(listener);
-		listener(this.value);
+		if (this.value) {
+			// Fire this listener once upon adding if
+			// the value is present already.
+			listener(this.value);
+		}
 	}
 }

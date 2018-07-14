@@ -3,13 +3,19 @@ import { ViewNode } from "../ViewNode";
 import { SwapButton } from "../controls/SwapButton";
 import { Image } from "../controls/Image";
 import { WaveformAudioDeck } from "./WaveformAudioDeck";
+import { DeckModel } from "../../model/deck/DeckModel";
 
 export class DeckView implements ViewNode {
+	private model = new DeckModel();
 	private audio: WaveformAudioDeck = new WaveformAudioDeck();
-	private inputChooser = new DeckInputChooser(this.audio);
+	private inputChooser = new DeckInputChooser(this.model);
 	private playPause = new SwapButton("play");
 	
 	public constructor() {
+		this.model.loadedAudioFile.listen(file => {
+			this.audio.load(file);
+		});
+		
 		this.playPause.setStates({
 			play: {
 				node: Image.ofAsset("icons/play.svg", "deck-icon"),
