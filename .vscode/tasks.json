@@ -5,7 +5,7 @@
 	"tasks": [
 		{
 			"type": "npm",
-			"script": "start",
+			"script": "execute",
 			"group": {
 				"kind": "build",
 				"isDefault": true

@@ -1,17 +1,22 @@
 import { Button } from "./Button";
 import { ViewNode } from "../ViewNode";
 
+export interface ButtonState {
+	node: ViewNode,
+	action: () => void
+}
+
 export class SwapButton implements ViewNode {
-	private element = document.createElement("div");
+	private button = new Button();
 	private initialized = false;
 	private initialState: string;
-	private states?: { [keys: string]: Button; };
+	private states?: { [keys: string]: ButtonState; };
 	
 	public constructor(initialState: string) {
 		this.initialState = initialState;
 	}
 	
-	public setStates(states: { [keys: string]: Button; }): void {
+	public setStates(states: { [keys: string]: ButtonState; }): void {
 		this.states = states;
 		if (!this.initialized) {
 			this.swap(this.initialState);
@@ -20,21 +25,15 @@ export class SwapButton implements ViewNode {
 	}
 	
 	public swap(newState: string): void {
-		this.swapButton(this.states[newState]);
+		this.swapContent(this.states[newState]);
 	}
 	
-	private swapButton(newButton: Button): void {
-		this.clear();
-		newButton.placeIn(this.element);
-	}
-	
-	private clear(): void {
-		while (this.element.firstChild) {
-			this.element.removeChild(this.element.firstChild);
-		}
+	private swapContent(newContent: ButtonState): void {
+		this.button.setContent(newContent.node);
+		this.button.setAction(newContent.action);
 	}
 	
 	public placeIn(parent: HTMLElement): void {
-		parent.appendChild(this.element);
+		this.button.placeIn(parent);
 	}
 }

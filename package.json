@@ -6,7 +6,8 @@
 		"build": "tsc",
 		"watch": "tsc -w",
 		"lint": "tslint -c tslint.json -p tsconfig.json",
-		"start": "npm run build && electron ./src/js/main.js"
+		"start": "npm run build && npm run execute",
+		"execute": "electron ./src/js/main.js"
 	},
 	"keywords": [
 		"Electron",

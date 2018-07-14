@@ -1,30 +1,30 @@
 import { ViewNode } from "../ViewNode";
-import { ListenerList } from "../../utils/ListenerList";
 
 export class Button implements ViewNode {
-	private text?: string;
-	private assetPath?: string;
-	private imgClass?: string;
-	private htmlClass?: string;
-	private action: () => void;
-	changeListeners = new ListenerList<void>();
+	private element: HTMLButtonElement;
+	private action?: () => void;
 	
-	private constructor(text?: string, assetPath?: string, imgClass?: string) {
-		this.text = text;
-		this.assetPath = assetPath;
-		this.imgClass = imgClass;
+	public constructor(content?: ViewNode, htmlClass?: string, action?: () => void) {
+		this.action = action;
+		this.element = document.createElement("button");
+		this.element.addEventListener("click", () => {
+			if (this.action) {
+				this.action();
+			}
+		});
+		if (htmlClass) {
+			this.element.setAttribute("class", htmlClass);
+		}
+		if (content) {
+			content.placeIn(this.element);
+		}
 	}
 	
-	public static withText(text: string): Button {
-		return new Button(text, undefined, undefined);
-	}
-	
-	public static withIcon(assetPath: string, imgClass: string): Button {
-		return new Button(undefined, assetPath, imgClass);
-	}
-	
-	public setClass(htmlClass: string): void {
-		this.htmlClass = htmlClass;
+	public setContent(content: ViewNode): void {
+		if (this.element.firstChild) {
+			this.element.removeChild(this.element.firstChild);
+		}
+		content.placeIn(this.element);
 	}
 	
 	public setAction(action: () => void): void {
@@ -32,24 +32,6 @@ export class Button implements ViewNode {
 	}
 	
 	public placeIn(parent: HTMLElement): void {
-		let button = document.createElement("button");
-		button.addEventListener("click", () => {
-			if (this.action) {
-				this.action();
-			}
-		});
-		if (this.htmlClass) {
-			button.setAttribute("class", this.htmlClass);
-		}
-		if (this.text) {
-			button.innerHTML = this.text;
-		}
-		if (this.assetPath) {
-			let icon = document.createElement("img");
-			icon.setAttribute("class", this.imgClass);
-			icon.src = "assets/" + this.assetPath;
-			button.appendChild(icon);
-		}
-		parent.appendChild(button);
+		parent.appendChild(this.element);
 	}
 }
