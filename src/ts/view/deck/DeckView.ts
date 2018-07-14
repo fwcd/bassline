@@ -1,12 +1,11 @@
-import { AudioDeck } from "./AudioDeck";
 import { DeckInputChooser } from "./DeckInputChooser";
 import { ViewNode } from "../ViewNode";
-import { Button } from "../controls/Button";
 import { SwapButton } from "../controls/SwapButton";
 import { Image } from "../controls/Image";
+import { WaveformAudioDeck } from "./WaveformAudioDeck";
 
 export class DeckView implements ViewNode {
-	private audio = new AudioDeck();
+	private audio: WaveformAudioDeck = new WaveformAudioDeck();
 	private inputChooser = new DeckInputChooser(this.audio);
 	private playPause = new SwapButton("play");
 	

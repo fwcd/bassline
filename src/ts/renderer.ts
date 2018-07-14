@@ -1,14 +1,14 @@
 import { DeckView } from "./view/deck/DeckView";
 
-function createDeckById(id: string): void {
-	new DeckView().placeIn(document.getElementById(id));
+function createDeckByIndex(index: number): void {
+	new DeckView().placeIn(document.getElementById("deck" + index));
 }
 
 function rendererMain(): void {
-	createDeckById("deck0");
-	createDeckById("deck1");
-	createDeckById("deck2");
-	createDeckById("deck3");
+	createDeckByIndex(0);
+	createDeckByIndex(1);
+	createDeckByIndex(2);
+	createDeckByIndex(3);
 }
 
 rendererMain();

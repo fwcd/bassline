@@ -1,10 +1,11 @@
 import { ViewNode } from "../ViewNode";
-import { AudioDeck } from "./AudioDeck";
+import { BasicAudioDeck } from "./BasicAudioDeck";
+import { WaveformAudioDeck } from "./WaveformAudioDeck";
 
 export class DeckInputChooser implements ViewNode {
 	private element: HTMLInputElement = document.createElement("input");
 	
-	public constructor(audio: AudioDeck) {
+	public constructor(audio: BasicAudioDeck | WaveformAudioDeck) {
 		this.element.setAttribute("type", "file");
 		this.element.addEventListener("change", () => {
 			let files = this.element.files;

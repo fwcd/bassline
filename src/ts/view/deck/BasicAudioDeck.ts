@@ -1,7 +1,7 @@
 import { ViewNode } from "../ViewNode";
 import { Observable } from "../../utils/Observable";
 
-export class AudioDeck implements ViewNode {
+export class BasicAudioDeck implements ViewNode {
 	private element: HTMLAudioElement = document.createElement("audio");
 	isPlaying = new Observable(false);
 	
