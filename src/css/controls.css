@@ -1,0 +1,24 @@
+button {
+	background-color: #333333;
+	color: white;
+	padding: 5px;
+	cursor: pointer;
+	border: none;
+}
+
+.deck-button {
+	background-color: rgba(51, 51, 51, 0.329);
+}
+
+.deck-icon {
+	width: 24px;
+	height: 24px;
+}
+
+button:active {
+	background-color: #111111;
+}
+
+button:hover {
+	background-color: #383838;
+}

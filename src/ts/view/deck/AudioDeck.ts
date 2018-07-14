@@ -1,7 +1,9 @@
 import { ViewNode } from "../ViewNode";
+import { ListenerList } from "../../utils/ListenerList";
 
 export class AudioDeck implements ViewNode {
 	private element: HTMLAudioElement = document.createElement("audio");
+	changeListeners = new ListenerList<void>();
 	
 	constructor() {
 		this.element.setAttribute("controls", "");

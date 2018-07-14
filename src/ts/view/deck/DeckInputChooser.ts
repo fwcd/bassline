@@ -1,8 +1,10 @@
 import { ViewNode } from "../ViewNode";
 import { AudioDeck } from "./AudioDeck";
+import { ListenerList } from "../../utils/ListenerList";
 
 export class DeckInputChooser implements ViewNode {
 	private element: HTMLInputElement = document.createElement("input");
+	changeListeners = new ListenerList<void>();
 	
 	public constructor(audio: AudioDeck) {
 		this.element.setAttribute("type", "file");
