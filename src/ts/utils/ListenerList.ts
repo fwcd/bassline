@@ -1,7 +1,7 @@
 export class ListenerList<T> {
 	private listeners: ((event: T) => void)[] = [];
 	
-	public add(listener: (event: T) => void): void {
+	public listen(listener: (event: T) => void): void {
 		this.listeners.push(listener);
 	}
 	

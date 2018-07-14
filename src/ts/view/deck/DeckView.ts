@@ -14,18 +14,15 @@ export class DeckView implements ViewNode {
 		this.playPause.setStates({
 			play: {
 				node: Image.ofAsset("icons/play.svg", "deck-icon"),
-				action: () => {
-					this.audio.play();
-					this.playPause.swap("pause");
-				}
+				action: () => { this.audio.play(); }
 			},
 			pause: {
 				node: Image.ofAsset("icons/pause.svg", "deck-icon"),
-				action: () => {
-					this.audio.pause();
-					this.playPause.swap("play");
-				}
+				action: () => { this.audio.pause(); }
 			}
+		});
+		this.audio.isPlaying.listen(playing => {
+			this.playPause.swap(playing ? "pause" : "play");
 		});
 	}
 	

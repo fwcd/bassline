@@ -1,10 +1,18 @@
 import { ViewNode } from "../ViewNode";
+import { Observable } from "../../utils/Observable";
 
 export class AudioDeck implements ViewNode {
 	private element: HTMLAudioElement = document.createElement("audio");
+	isPlaying = new Observable(false);
 	
 	constructor() {
 		this.element.setAttribute("controls", "");
+		this.element.addEventListener("pause", () => {
+			this.isPlaying.set(false);
+		});
+		this.element.addEventListener("play", () => {
+			this.isPlaying.set(true);
+		});
 	}
 	
 	public load(file: File): void {
@@ -18,10 +26,6 @@ export class AudioDeck implements ViewNode {
 	
 	public pause(): void {
 		this.element.pause();
-	}
-	
-	public isPlaying(): boolean {
-		return !this.element.paused;
 	}
 	
 	public placeIn(parent: HTMLElement): void {
