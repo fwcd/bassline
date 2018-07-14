@@ -16,7 +16,7 @@ body {
 	display: grid;
 	grid-row: 1;
 	grid-column: 1;
-	grid-template-rows: 75% 25%;
+	grid-template-rows: 320px auto;
 }
 
 #library {
@@ -58,25 +58,21 @@ body {
 }
 
 #waveform0 {
-	background-color: rgb(255, 208, 0);
 	grid-row: 1;
 	grid-column: 1;
 }
 
 #waveform1 {
-	background-color: rgb(212, 174, 1);
 	grid-row: 2;
 	grid-column: 1;
 }
 
 #waveform2 {
-	background-color: rgb(185, 151, 0);
 	grid-row: 3;
 	grid-column: 1;
 }
 
 #waveform3 {
-	background-color: rgb(163, 133, 0);
 	grid-row: 4;
 	grid-column: 1;
 }

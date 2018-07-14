@@ -2,37 +2,34 @@ import { DeckInputChooser } from "./DeckInputChooser";
 import { ViewNode } from "../ViewNode";
 import { SwapButton } from "../controls/SwapButton";
 import { Image } from "../controls/Image";
-import { WaveformAudioDeck } from "./WaveformAudioDeck";
+import { Waveform } from "../waveform/Waveform";
 import { DeckModel } from "../../model/deck/DeckModel";
 
 export class DeckView implements ViewNode {
-	private model = new DeckModel();
-	private audio: WaveformAudioDeck = new WaveformAudioDeck();
-	private inputChooser = new DeckInputChooser(this.model);
+	private model: DeckModel;
+	private inputChooser: DeckInputChooser;
 	private playPause = new SwapButton("play", "deck-button");
 	
-	public constructor() {
-		this.model.loadedAudioFile.listen(file => {
-			this.audio.load(file);
-		});
+	public constructor(model: DeckModel) {
+		this.model = model;
+		this.inputChooser = new DeckInputChooser(model);
 		
 		this.playPause.setStates({
 			play: {
 				node: Image.ofAsset("icons/play.svg", "deck-icon"),
-				action: () => { this.audio.play(); }
+				action: () => { this.model.play(); }
 			},
 			pause: {
 				node: Image.ofAsset("icons/pause.svg", "deck-icon"),
-				action: () => { this.audio.pause(); }
+				action: () => { this.model.pause(); }
 			}
 		});
-		this.audio.isPlaying.listen(playing => {
+		model.playing.listen(playing => {
 			this.playPause.swap(playing ? "pause" : "play");
 		});
 	}
 	
 	public placeIn(parent: HTMLElement): void {
-		this.audio.placeIn(parent);
 		this.inputChooser.placeIn(parent);
 		parent.appendChild(document.createElement("br"));
 		this.playPause.placeIn(parent);
