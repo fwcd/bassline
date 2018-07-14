@@ -9,7 +9,7 @@ export class DeckView implements ViewNode {
 	private model = new DeckModel();
 	private audio: WaveformAudioDeck = new WaveformAudioDeck();
 	private inputChooser = new DeckInputChooser(this.model);
-	private playPause = new SwapButton("play");
+	private playPause = new SwapButton("play", "deck-button");
 	
 	public constructor() {
 		this.model.loadedAudioFile.listen(file => {

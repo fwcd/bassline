@@ -29,8 +29,8 @@ export class WaveformAudioDeck implements ViewNode {
 		});
 	}
 	
-	public load(file: File): void {
-		let url = "file://" + file.path;
+	public load(filePath: string): void {
+		let url = "file://" + filePath;
 		this.wavesurfer.load(url);
 	}
 	

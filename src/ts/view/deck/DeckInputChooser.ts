@@ -1,20 +1,25 @@
 import { ViewNode } from "../ViewNode";
 import { DeckModel } from "../../model/deck/DeckModel";
+import { Button } from "../controls/Button";
+import { Label } from "../controls/Label";
+import { remote } from "electron";
 
 export class DeckInputChooser implements ViewNode {
-	private element: HTMLInputElement = document.createElement("input");
+	private button = new Button(new Label("Load"), "deck-button");
 	
 	public constructor(deckModel: DeckModel) {
-		this.element.setAttribute("type", "file");
-		this.element.addEventListener("change", () => {
-			let files = this.element.files;
-			if (files.length > 0) {
-				deckModel.loadedAudioFile.set(files.item(0));
-			}
+		this.button.setAction(() => {
+			remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+				properties: ["openFile"]
+			}, files => {
+				if (files && files.length > 0) {
+					deckModel.loadedAudioFile.set(files[0]);
+				}
+			});
 		});
 	}
 	
 	public placeIn(parent: HTMLElement): void {
-		parent.appendChild(this.element);
+		this.button.placeIn(parent);
 	}
 }

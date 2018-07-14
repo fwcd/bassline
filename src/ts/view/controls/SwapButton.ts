@@ -7,12 +7,13 @@ export interface ButtonState {
 }
 
 export class SwapButton implements ViewNode {
-	private button = new Button();
+	private button: Button;
 	private initialized = false;
 	private initialState: string;
 	private states?: { [keys: string]: ButtonState; };
 	
-	public constructor(initialState: string) {
+	public constructor(initialState: string, htmlClass?: string) {
+		this.button = new Button(undefined, htmlClass);
 		this.initialState = initialState;
 	}
 	
