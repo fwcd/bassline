@@ -1,6 +1,5 @@
 # TODO
 
-* Dim other waveforms upon hover of a deck
 * Drag and Drop for decks
 * Audio controls
 * Waveforms

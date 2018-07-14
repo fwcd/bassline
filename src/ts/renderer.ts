@@ -4,8 +4,18 @@ import { Waveform } from "./view/waveform/Waveform";
 
 function createDeckByIndex(index: number): void {
 	let model = new DeckModel();
-	new DeckView(model).placeIn(document.getElementById("deck" + index));
-	new Waveform(model, document.getElementById("waveform" + index));
+	let deckElement = document.getElementById("deck" + index);
+	let waveformElement = document.getElementById("waveform" + index);
+	
+	deckElement.addEventListener("mouseover", () => {
+		waveformElement.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+	});
+	deckElement.addEventListener("mouseout", () => {
+		waveformElement.style.backgroundColor = "";
+	});
+	
+	new DeckView(model).placeIn(deckElement);
+	new Waveform(model, waveformElement);
 }
 
 function rendererMain(): void {
