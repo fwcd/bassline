@@ -4,11 +4,10 @@ import { Observable } from "../../utils/Observable";
 import { DeckModel } from "../../model/deck/DeckModel";
 import { Debouncer } from "../../utils/Debouncer";
 
-let debouncer = new Debouncer();
-
 export class Waveform implements ViewNode {
 	private element: HTMLElement;
 	private wavesurfer: WaveSurfer;
+	private debouncer = new Debouncer();
 	
 	constructor(model: DeckModel, element: HTMLElement) {
 		this.element = element;
@@ -31,7 +30,7 @@ export class Waveform implements ViewNode {
 		
 		let uncheckedWavesurfer: any = this.wavesurfer;
 		window.addEventListener("resize", () => {
-			debouncer.executeMaybe(() => {
+			this.debouncer.executeMaybe(() => {
 				let drawer: any = uncheckedWavesurfer.drawer;
 				drawer.containerHeight = drawer.container.clientHeight
 				drawer.containerWidth = drawer.container.clientWidth;

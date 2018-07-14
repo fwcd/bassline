@@ -25,4 +25,16 @@ export class Observable<T> {
 			listener(this.value);
 		}
 	}
+	
+	public derive<R>(mapper: (value: T) => R): Observable<R> {
+		let result = new Observable<R>();
+		this.listen(value => result.set(mapper(value)));
+		return result;
+	}
+	
+	public deriveAsync<R>(mapper: (value: T, self: Observable<R>) => void): Observable<R> {
+		let result = new Observable<R>();
+		this.listen(value => mapper(value, result));
+		return result;
+	}
 }

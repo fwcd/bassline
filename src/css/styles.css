@@ -1,6 +1,7 @@
 body {
 	background-color: #282828;
 	color: white;
+	font-family: Arial, Helvetica, sans-serif; 
 	margin: 0px;
 }
 
@@ -75,6 +76,18 @@ body {
 #waveform3 {
 	grid-row: 4;
 	grid-column: 1;
+}
+
+.deck {
+	padding: 0.5em;
+}
+
+.deck-track-name {
+	font-size: 2em;
+}
+
+.deck-track-artist {
+	font-size: 1em;
 }
 
 .upper-deck {

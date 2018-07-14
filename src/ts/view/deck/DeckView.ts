@@ -4,10 +4,14 @@ import { SwapButton } from "../controls/SwapButton";
 import { Image } from "../controls/Image";
 import { Waveform } from "../waveform/Waveform";
 import { DeckModel } from "../../model/deck/DeckModel";
+import { Label } from "../controls/Label";
+import { appendBreak } from "../viewutils";
 
 export class DeckView implements ViewNode {
 	private model: DeckModel;
 	private inputChooser: DeckInputChooser;
+	private trackName = new Label("No track", "deck-track-name");
+	private trackArtist = new Label("No artist", "deck-track-artist");
 	private playPause = new SwapButton("play", "deck-button");
 	
 	public constructor(model: DeckModel) {
@@ -27,11 +31,20 @@ export class DeckView implements ViewNode {
 		model.playing.listen(playing => {
 			this.playPause.swap(playing ? "pause" : "play");
 		});
+		model.trackInfo.listen(info => {
+			this.trackName.setText(info.name);
+			this.trackArtist.setText(info.artist);
+		});
 	}
 	
 	public placeIn(parent: HTMLElement): void {
+		this.trackName.placeIn(parent);
+		appendBreak(parent);
+		this.trackArtist.placeIn(parent);
+		appendBreak(parent);
+		appendBreak(parent);
 		this.inputChooser.placeIn(parent);
-		parent.appendChild(document.createElement("br"));
+		appendBreak(parent);
 		this.playPause.placeIn(parent);
 	}
 }
