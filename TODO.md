@@ -1,10 +1,14 @@
 # TODO
 
+* Color-coded crossfader corners
+* Snap crossfader to center
+* Highlight waveforms dynamically based upon crossfader
 * Drag and Drop for decks
-* Audio controls
-* Waveforms
-* Fader
+* Improved audio controls
+* Improved waveforms
+* Faders
 * EQ
-* Multiple decks
+* BPM detection + tempo changers
+* Key detection + pitch/key changers
 * Library management
 * Discord API

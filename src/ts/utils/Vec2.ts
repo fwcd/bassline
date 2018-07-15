@@ -23,6 +23,10 @@ export class Vec2 {
 		return Math.sqrt((this.x * this.x) + (this.y * this.y));
 	}
 	
+	public distanceTo(rhs: Vec2): number {
+		return rhs.minus(this).length();
+	}
+	
 	public min(rhs: Vec2): Vec2 {
 		return new Vec2(Math.min(this.x, rhs.x), Math.min(this.y, rhs.y));
 	}

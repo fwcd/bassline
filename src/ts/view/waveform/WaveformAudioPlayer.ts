@@ -49,6 +49,9 @@ export class WaveformAudioPlayer implements ViewNode {
 		model.loadedAudioFile.listen(file => {
 			this.load(file);
 		});
+		model.fader.listen(normalizedValue => {
+			this.wavesurfer.setVolume(normalizedValue);
+		});
 	}
 	
 	public load(filePath: string): void {

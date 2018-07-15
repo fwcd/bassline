@@ -29,6 +29,10 @@ export class Rectangle {
 		return new Vec2(clampValue(pos.x, minX, maxX), clampValue(pos.y, minY, maxY));
 	}
 	
+	public getCenter(): Vec2 {
+		return this.topLeft.plus(new Vec2(this.width / 2, this.height / 2));
+	}
+	
 	public contains(pos: Vec2): boolean {
 		return this.containsPos(pos.x, pos.y);
 	}
