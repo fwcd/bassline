@@ -60,15 +60,17 @@ export class RenderNode {
 	}
 	
 	private delegateEvent(event: CanvasMouseEvent, lockDrag: boolean, firstHandler: (node: RenderNode) => boolean, handler: (node: RenderNode) => boolean): boolean {
-		let handled = false;
 		this.childs.forEach(child => {
 			if (child.bounds.containsPos(event.pos.x, event.pos.y)) {
-				handled = handled || firstHandler(child);
+				if (firstHandler(child)) {
+					if (lockDrag) {
+						this.dragLock.dragged = child;
+					}
+					return true;
+				}
 			}
 		});
-		if (!handled) {
-			handled = handler(this);
-		}
+		let handled = handler(this);
 		if (handled && lockDrag) {
 			this.dragLock.dragged = this;
 		}
