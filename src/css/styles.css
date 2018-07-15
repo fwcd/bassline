@@ -13,13 +13,6 @@ body {
 	grid-template-rows: 75% 25%;
 }
 
-#mixboard {
-	display: grid;
-	grid-row: 1;
-	grid-column: 1;
-	grid-template-rows: 320px auto;
-}
-
 #library {
 	background-color: rgb(32, 32, 32);
 	display: grid;
@@ -27,11 +20,18 @@ body {
 	grid-column: 1;
 }
 
-#deckboard {
+#mixboard {
 	display: grid;
 	grid-row: 1;
 	grid-column: 1;
 	grid-template-columns: 20% 60% 20%;
+}
+
+#centerboard {
+	display: grid;
+	grid-row: 1;
+	grid-column: 2;
+	grid-template-rows: 320px auto;
 }
 
 #faders {
@@ -44,7 +44,7 @@ body {
 #waveformpanel {
 	display: grid;
 	grid-row: 1;
-	grid-column: 2;
+	grid-column: 1;
 	grid-template-rows: 25% 25% 25% 25%;
 }
 
