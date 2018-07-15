@@ -8,12 +8,8 @@ function createDeckByIndex(index: number): DeckModel {
 	let deckElement = document.getElementById("deck" + index);
 	let waveformElement = document.getElementById("waveform" + index);
 	
-	deckElement.addEventListener("mouseover", () => {
-		waveformElement.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-	});
-	deckElement.addEventListener("mouseout", () => {
-		waveformElement.style.backgroundColor = "";
-	});
+	deckElement.addEventListener("mouseover", () => { model.focused.set(true); });
+	deckElement.addEventListener("mouseout", () => { model.focused.set(false); });
 	
 	new DeckView(model).placeIn(deckElement);
 	new WaveformAudioPlayer(model, waveformElement);

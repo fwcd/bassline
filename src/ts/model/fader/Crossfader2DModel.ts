@@ -23,7 +23,7 @@ export class Crossfader2DModel {
 	) {
 		let topLeftRect = new Rectangle(new Vec2(-1, -1), 1, 1);
 		let topRightRect = new Rectangle(new Vec2(0, -1), 1, 1);
-		let bottomLeftRect = new Rectangle(new Vec2(-1, 1), 1, 1);
+		let bottomLeftRect = new Rectangle(new Vec2(-1, 0), 1, 1);
 		let bottomRightRect = new Rectangle(new Vec2(0, 0), 1, 1);
 		this.normalizedPos.listen(faderPos => {
 			topLeftDeck.fader.set(this.singleFaderVolume(topLeftRect, faderPos));
@@ -39,7 +39,7 @@ export class Crossfader2DModel {
 			return 1;
 		} else {
 			let fullVolumeBoundPos = fullVolumeArea.clamp(pos);
-			return 1 - pos.distanceTo(fullVolumeBoundPos);
+			return Math.max(0, 1 - pos.distanceTo(fullVolumeBoundPos));
 		}
 	}
 }

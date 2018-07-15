@@ -52,6 +52,9 @@ export class WaveformAudioPlayer implements ViewNode {
 		model.fader.listen(normalizedValue => {
 			this.wavesurfer.setVolume(normalizedValue);
 		});
+		model.focused.listen(focused => {
+			element.style.backgroundColor = (focused ? "rgba(255, 255, 255, 0.1)" : "");
+		});
 	}
 	
 	public load(filePath: string): void {

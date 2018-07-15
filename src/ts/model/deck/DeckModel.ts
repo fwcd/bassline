@@ -3,6 +3,7 @@ import * as jsmediatags from "jsmediatags";
 import { TrackInfo } from "./TrackInfo";
 
 export class DeckModel {
+	focused = new Observable<boolean>(false);
 	loadedAudioFile? = new Observable<string>();
 	playing = new Observable<boolean>(false);
 	shouldPlay = new Observable<boolean>(false);
