@@ -22,7 +22,11 @@
 		"electron": "^2.0.4",
 		"jsmediatags": "^3.8.1",
 		"tslint": "^5.10.0",
-		"typescript": "^2.8.3",
-		"wavesurfer.js": "^2.0.6"
+		"typescript": "^2.8.3"
+	},
+	"dependencies": {
+		"wavesurfer.js": "^2.0.6",
+		"datatables.net": "^1.10.19",
+		"datatables.net-dt": "^1.10.19"
 	}
 }
