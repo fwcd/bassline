@@ -1,4 +1,5 @@
 import { Vec2 } from "./Vec2";
+import { clampValue } from "./MathUtils";
 
 export class Rectangle {
 	public readonly topLeft: Vec2;
@@ -18,6 +19,14 @@ export class Rectangle {
 	
 	public bottomRight(): Vec2 {
 		return this.topLeft.plus(new Vec2(this.width, this.height));
+	}
+	
+	public clamp(pos: Vec2): Vec2 {
+		let minX = this.topLeft.x;
+		let minY = this.topLeft.y;
+		let maxX = minX + this.width;
+		let maxY = minY + this.height;
+		return new Vec2(clampValue(pos.x, minX, maxX), clampValue(pos.y, minY, maxY));
 	}
 	
 	public contains(pos: Vec2): boolean {

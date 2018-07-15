@@ -6,6 +6,10 @@ button {
 	border: none;
 }
 
+.label {
+	cursor: default;
+}
+
 .deck-button {
 	background-color: rgba(51, 51, 51, 0.5);
 }

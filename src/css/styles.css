@@ -1,3 +1,18 @@
+/* Disable user selections by default */
+
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+input, button, textarea, :focus {
+    outline: none;
+}
+
+/* Application styles */
+
 body {
 	background-color: #282828;
 	color: white;

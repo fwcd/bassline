@@ -9,7 +9,7 @@ export class Label implements ViewNode {
 			this.setText(text);
 		}
 		if (htmlClass) {
-			this.element.setAttribute("class", htmlClass);
+			this.element.setAttribute("class", "label " + htmlClass);
 		}
 	}
 	

@@ -43,8 +43,12 @@ export class Crossfader2D extends RenderNode {
 	
 	// Override
 	public handleMouseDrag(event: CanvasMouseEvent): boolean {
-		this.faderPos = event.pos;
+		this.faderPos = this.limitToBounds(event.pos);
 		this.updateListeners.fire();
 		return true;
+	}
+	
+	private limitToBounds(pos: Vec2): Vec2 {
+		return this.getBounds().clamp(pos);
 	}
 }
