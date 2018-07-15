@@ -1,7 +1,9 @@
 import { ViewNode } from "../ViewNode";
 import { RenderNode } from "./RenderNode";
-import { Vec2 } from "../../utils/Vec2";
 import { DragLock } from "./DragLock";
+import { Rectangle } from "../../utils/Rectangle";
+import { CanvasMouseEvent } from "./CanvasMouseEvent";
+import { Vec2 } from "../../utils/Vec2";
 
 export class Canvas implements ViewNode, DragLock {
 	private element: HTMLCanvasElement;
@@ -16,25 +18,28 @@ export class Canvas implements ViewNode, DragLock {
 		if (htmlClass) {
 			this.element.setAttribute("class", htmlClass);
 		}
-		this.element.addEventListener("mousedown", event => {
-			this.root.onMouseDown(event);
+		
+		this.element.addEventListener("pointerdown", event => {
+			this.element.setPointerCapture(event.pointerId);
+			this.root.onMouseDown(this.toCanvasEvent(event));
 			this.mousePressed = true;
 		});
-		this.element.addEventListener("mousemove", event => {
+		this.element.addEventListener("pointermove", event => {
 			if (this.mousePressed) {
 				if (this.dragged) {
-					this.dragged.onMouseDrag(event);
+					this.dragged.onMouseDrag(this.toCanvasEvent(event));
 				} else {
-					this.root.onMouseDrag(event);
+					this.root.onMouseDrag(this.toCanvasEvent(event));
 				}
 			} else {
-				this.root.onMouseMove(event);
+				this.root.onMouseMove(this.toCanvasEvent(event));
 			}
 		});
-		this.element.addEventListener("mouseup", event => {
+		this.element.addEventListener("pointerup", event => {
+			this.element.releasePointerCapture(event.pointerId);
 			this.mousePressed = false;
 			this.dragged = undefined;
-			this.root.onMouseUp(event);
+			this.root.onMouseUp(this.toCanvasEvent(event));
 		});
 		this.root.dragLock = this;
 		this.root.updateListeners.listen(() => this.repaint());
@@ -42,6 +47,28 @@ export class Canvas implements ViewNode, DragLock {
 	
 	public add(node: RenderNode): void {
 		this.root.addChild(node);
+	}
+	
+	public getBounds(): Rectangle {
+		return this.root.getChilds()
+			.map(it => it.getBounds())
+			.reduce((a, b) => a.merge(b));
+	}
+	
+	private toCanvasEvent(event: MouseEvent): CanvasMouseEvent {
+		let offsetX = this.element.offsetLeft;
+		let offsetY = this.element.offsetTop;
+		return {
+			button: event.button,
+			pos: new Vec2(event.x - offsetX, event.y - offsetY)
+		};
+	}
+	
+	public updateBoundsAndPaint(): void {
+		let bounds = this.getBounds();
+		this.element.width = bounds.width;
+		this.element.height = bounds.height;
+		this.repaint();
 	}
 	
 	public placeIn(parent: HTMLElement): void {

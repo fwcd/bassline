@@ -34,9 +34,11 @@ body {
 	grid-template-rows: 320px auto;
 }
 
-#faders {
+#centralfaderpanel {
 	background-color: rgb(66, 66, 66);
-	display: grid;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	grid-row: 2;
 	grid-column: 1;
 }

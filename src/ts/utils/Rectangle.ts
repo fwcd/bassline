@@ -11,6 +11,15 @@ export class Rectangle {
 		this.height = height;
 	}
 	
+	public static between(topLeft: Vec2, bottomRight: Vec2): Rectangle {
+		let size = bottomRight.minus(topLeft);
+		return new Rectangle(topLeft, size.x, size.y);
+	}
+	
+	public bottomRight(): Vec2 {
+		return this.topLeft.plus(new Vec2(this.width, this.height));
+	}
+	
 	public contains(pos: Vec2): boolean {
 		return this.containsPos(pos.x, pos.y);
 	}
@@ -21,6 +30,12 @@ export class Rectangle {
 		let maxX = minX + this.width;
 		let maxY = minY + this.height;
 		return x >= minX && x <= maxX && y >= minY && y <= maxY;
+	}
+	
+	public merge(rhs: Rectangle): Rectangle {
+		let bottomRight = this.bottomRight();
+		let rhsBottomRight = rhs.bottomRight();
+		return Rectangle.between(this.topLeft.min(rhs.topLeft), bottomRight.max(rhsBottomRight));
 	}
 	
 	public at(newTopLeft: Vec2): Rectangle {

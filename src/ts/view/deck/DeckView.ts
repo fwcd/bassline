@@ -2,7 +2,7 @@ import { DeckInputChooser } from "./DeckInputChooser";
 import { ViewNode } from "../ViewNode";
 import { SwapButton } from "../controls/SwapButton";
 import { Image } from "../controls/Image";
-import { Waveform } from "../waveform/Waveform";
+import { WaveformAudioPlayer } from "../waveform/WaveformAudioPlayer";
 import { DeckModel } from "../../model/deck/DeckModel";
 import { Label } from "../controls/Label";
 import { appendBreak } from "../viewutils";

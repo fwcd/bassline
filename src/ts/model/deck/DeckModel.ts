@@ -6,6 +6,7 @@ export class DeckModel {
 	loadedAudioFile? = new Observable<string>();
 	playing = new Observable<boolean>(false);
 	shouldPlay = new Observable<boolean>(false);
+	fader = new Observable<number>(1.0); // A bounded value between 0 and 1 where 0 = silent and 1 = normal volume
 	trackInfo: Observable<TrackInfo> = this.loadedAudioFile.deriveAsync((file, self) => {
 		jsmediatags.read(file, {
 			onSuccess: tag => {

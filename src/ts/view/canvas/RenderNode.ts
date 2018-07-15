@@ -1,6 +1,7 @@
 import { ListenerList } from "../../utils/ListenerList";
 import { DragLock } from "./DragLock";
 import { Rectangle } from "../../utils/Rectangle";
+import { CanvasMouseEvent } from "./CanvasMouseEvent";
 
 export class RenderNode {
 	private childs: RenderNode[] = [];
@@ -14,6 +15,10 @@ export class RenderNode {
 		this.childs.push(child);
 	}
 	
+	public getChilds(): RenderNode[] {
+		return this.childs;
+	}
+	
 	public setBounds(bounds: Rectangle): void {
 		this.bounds = bounds;
 		this.updateListeners.fire();
@@ -22,47 +27,51 @@ export class RenderNode {
 	public getBounds(): Rectangle { return this.bounds; }
 	
 	// Intended to be overriden
-	public renderIn(graphics: CanvasRenderingContext2D): void {}
-	
-	// Intended to be overriden
-	public handleMouseDown(event: MouseEvent): boolean { return false; }
-	
-	// Intended to be overriden
-	public handleMouseMove(event: MouseEvent): boolean { return false; }
-	
-	// Intended to be overriden
-	public handleMouseDrag(event: MouseEvent): boolean { return false; }
-	
-	// Intended to be overriden
-	public handleMouseUp(event: MouseEvent): boolean { return false; }
-	
-	public onMouseDown(event: MouseEvent): boolean {
-		return this.delegateEvent(event, true, node => node.onMouseDown(event), node => node.handleMouseDown(event));
+	public renderIn(graphics: CanvasRenderingContext2D): void {
+		this.childs.forEach(it => it.renderIn(graphics));
 	}
 	
-	public onMouseMove(event: MouseEvent): boolean {
+	// Intended to be overriden
+	public handleMouseDown(event: CanvasMouseEvent): boolean { return false; }
+	
+	// Intended to be overriden
+	public handleMouseMove(event: CanvasMouseEvent): boolean { return false; }
+	
+	// Intended to be overriden
+	public handleMouseDrag(event: CanvasMouseEvent): boolean { return false; }
+	
+	// Intended to be overriden
+	public handleMouseUp(event: CanvasMouseEvent): boolean { return false; }
+	
+	public onMouseDown(event: CanvasMouseEvent): boolean {
+		return this.delegateEvent(event, true, node => node.onMouseDown(event), (node) => node.handleMouseDown(event));
+	}
+	
+	public onMouseMove(event: CanvasMouseEvent): boolean {
 		return this.delegateEvent(event, false, node => node.onMouseMove(event), node => node.handleMouseMove(event));
 	}
 	
-	public onMouseDrag(event: MouseEvent): boolean {
+	public onMouseDrag(event: CanvasMouseEvent): boolean {
 		return this.delegateEvent(event, false, node => node.onMouseDrag(event), node => node.handleMouseDrag(event));
 	}
 	
-	public onMouseUp(event: MouseEvent): boolean {
+	public onMouseUp(event: CanvasMouseEvent): boolean {
 		return this.delegateEvent(event, false, node => node.onMouseUp(event), node => node.handleMouseUp(event));
 	}
 	
-	private delegateEvent(event: MouseEvent, lockDrag: boolean, firstHandler: (node: RenderNode) => boolean, handler: (node: RenderNode) => boolean): boolean {
+	private delegateEvent(event: CanvasMouseEvent, lockDrag: boolean, firstHandler: (node: RenderNode) => boolean, handler: (node: RenderNode) => boolean): boolean {
+		let handled = false;
 		this.childs.forEach(child => {
-			if (child.bounds.containsPos(event.x, event.y)) {
-				if (firstHandler(child)) {
-					if (lockDrag) {
-						this.dragLock.dragged = this;
-					}
-					return true;
-				}
+			if (child.bounds.containsPos(event.pos.x, event.pos.y)) {
+				handled = handled || firstHandler(child);
 			}
 		});
-		return handler(this);
+		if (!handled) {
+			handled = handler(this);
+		}
+		if (handled && lockDrag) {
+			this.dragLock.dragged = this;
+		}
+		return handled;
 	}
 }

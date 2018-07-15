@@ -1,10 +1,9 @@
 import * as WaveSurfer from "wavesurfer.js";
 import { ViewNode } from "../ViewNode";
-import { Observable } from "../../utils/Observable";
 import { DeckModel } from "../../model/deck/DeckModel";
 import { Debouncer } from "../../utils/Debouncer";
 
-export class Waveform implements ViewNode {
+export class WaveformAudioPlayer implements ViewNode {
 	private element: HTMLElement;
 	private wavesurfer: WaveSurfer;
 	private debouncer = new Debouncer();

@@ -23,6 +23,14 @@ export class Vec2 {
 		return Math.sqrt((this.x * this.x) + (this.y * this.y));
 	}
 	
+	public min(rhs: Vec2): Vec2 {
+		return new Vec2(Math.min(this.x, rhs.x), Math.min(this.y, rhs.y));
+	}
+	
+	public max(rhs: Vec2): Vec2 {
+		return new Vec2(Math.max(this.x, rhs.x), Math.max(this.y, rhs.y));
+	}
+	
 	public normalize(): Vec2 {
 		return this.scale(1.0 / this.length());
 	}
