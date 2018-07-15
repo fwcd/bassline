@@ -5,18 +5,19 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "node",
+			"type": "chrome",
 			"request": "launch",
-			"name": "Electron Main",
+			"name": "Debug Electron Renderer Process",
 			"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
-			"program": "${workspaceFolder}/src/js/main.js",
 			"runtimeArgs": [
+				"${workspaceRoot}/src/js/main.js",
 				"--remote-debugging-port=9222"
 			],
 			"windows": {
 				"runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
 			},
-			"protocol": "legacy"
+			"sourceMaps": true,
+			"webRoot": "${workspaceRoot}"
 		}
 	]
 }
