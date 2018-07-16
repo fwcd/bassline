@@ -6,7 +6,7 @@ export class BasicAudioDeck implements ViewNode {
 	isPlaying = new Observable(false);
 	
 	constructor() {
-		this.element.setAttribute("controls", "");
+		this.element.controls = true;
 		this.element.addEventListener("pause", () => {
 			this.isPlaying.set(false);
 		});

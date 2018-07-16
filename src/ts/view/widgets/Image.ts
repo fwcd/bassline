@@ -5,7 +5,7 @@ export class Image implements ViewNode {
 	
 	public constructor(src: string, htmlClass: string) {
 		this.element = document.createElement("img");
-		this.element.setAttribute("class", htmlClass);
+		this.element.classList.add(htmlClass);
 		this.element.src = src;
 	}
 	

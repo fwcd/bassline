@@ -17,4 +17,5 @@ export class LibraryModel {
 			});
 		});
 	});
+	filter = new Observable<string>("");
 }

@@ -17,6 +17,9 @@ export class LibraryContentsView implements ViewNode {
 				this.table.appendRow(entry.name, entry.artist, bpm);
 			});
 		});
+		model.filter.listen(filter => {
+			this.table.filterBy(filter);
+		});
 	}
 	
 	public placeIn(parent: HTMLElement): void {

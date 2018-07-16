@@ -143,6 +143,10 @@ th {
 	background-color: rgb(31, 31, 31);
 }
 
+.library-searchbar {
+	width: 100%;
+}
+
 .library-name-col {
 	width: 50%;
 }

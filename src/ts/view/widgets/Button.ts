@@ -13,7 +13,7 @@ export class Button implements ViewNode {
 			}
 		});
 		if (htmlClass) {
-			this.element.setAttribute("class", htmlClass);
+			this.element.classList.add(htmlClass);
 		}
 		if (content) {
 			content.placeIn(this.element);

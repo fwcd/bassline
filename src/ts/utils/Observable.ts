@@ -26,15 +26,19 @@ export class Observable<T> {
 		if (this.value) { return true; } else { return false; }
 	}
 	
+	public fire(): void {
+		this.listeners.fireWith(this.value);
+	}
+	
 	public use(consumer: (value: T) => void): void {
 		this.assertPresent();
 		consumer(this.value);
-		this.listeners.fireWith(this.value);
+		this.fire();
 	}
 	
 	public set(value: T): void {
 		this.value = value;
-		this.listeners.fireWith(value);
+		this.fire();
 	}
 	
 	public listen(listener: (newValue: T) => void): void {

@@ -16,7 +16,7 @@ export class Canvas implements ViewNode, DragLock {
 		this.element = document.createElement("canvas");
 		this.context = this.element.getContext("2d");
 		if (htmlClass) {
-			this.element.setAttribute("class", htmlClass);
+			this.element.classList.add(htmlClass);
 		}
 		
 		this.element.addEventListener("pointerdown", event => {

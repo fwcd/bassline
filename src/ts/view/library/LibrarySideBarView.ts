@@ -3,13 +3,23 @@ import { LibraryModel } from "../../model/library/LibraryModel";
 import { Button } from "../widgets/Button";
 import { Label } from "../widgets/Label";
 import { remote } from "electron";
+import { appendBreak } from "../viewutils";
+import { TextField } from "../widgets/TextField";
 
 export class LibrarySideBarView implements ViewNode {
 	private element = document.createElement("div");
 	
 	public constructor(model: LibraryModel, htmlClass?: string) {
-		this.element.setAttribute("class", htmlClass);
-		this.element.setAttribute("directory", "directory");
+		this.element.classList.add(htmlClass);
+		
+		let searchBar = new TextField("library-searchbar");
+		searchBar.setPlaceholder("Search...");
+		searchBar.listenToValue(value => {
+			model.filter.set(value);
+		});
+		searchBar.placeIn(this.element);
+		
+		appendBreak(this.element);
 		
 		let fileChooser = new Button(new Label("Choose Library Directory"));
 		fileChooser.setAction(() => {
