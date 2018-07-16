@@ -1,7 +1,7 @@
 import { ViewNode } from "../ViewNode";
 import { DeckModel } from "../../model/deck/DeckModel";
-import { Button } from "../controls/Button";
-import { Label } from "../controls/Label";
+import { Button } from "../widgets/Button";
+import { Label } from "../widgets/Label";
 import { remote } from "electron";
 
 export class DeckInputChooser implements ViewNode {

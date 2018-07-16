@@ -1,8 +1,7 @@
 import { RenderNode } from "../canvas/RenderNode";
-import { DeckModel } from "../../model/deck/DeckModel";
 import { Rectangle } from "../../utils/Rectangle";
 import { Vec2 } from "../../utils/Vec2";
-import { CanvasMouseEvent, MouseButton } from "../canvas/CanvasMouseEvent";
+import { CanvasMouseEvent } from "../canvas/CanvasMouseEvent";
 import { Crossfader2DModel } from "../../model/fader/Crossfader2DModel";
 
 export class Crossfader2DView extends RenderNode {

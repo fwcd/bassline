@@ -26,7 +26,7 @@ export class Observable<T> {
 		if (this.value) { return true; } else { return false; }
 	}
 	
-	public use(consumer: (T) => void): void {
+	public use(consumer: (value: T) => void): void {
 		this.assertPresent();
 		consumer(this.value);
 		this.listeners.fireWith(this.value);

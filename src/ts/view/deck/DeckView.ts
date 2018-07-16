@@ -1,10 +1,10 @@
 import { DeckInputChooser } from "./DeckInputChooser";
 import { ViewNode } from "../ViewNode";
-import { SwapButton } from "../controls/SwapButton";
-import { Image } from "../controls/Image";
+import { SwapButton } from "../widgets/SwapButton";
+import { Image } from "../widgets/Image";
 import { WaveformAudioPlayer } from "../waveform/WaveformAudioPlayer";
 import { DeckModel } from "../../model/deck/DeckModel";
-import { Label } from "../controls/Label";
+import { Label } from "../widgets/Label";
 import { appendBreak } from "../viewutils";
 
 export class DeckView implements ViewNode {

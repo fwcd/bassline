@@ -12,3 +12,4 @@
 * Key detection + pitch/key changers
 * Library management
 * Discord API
+* Touch Bar API on macOS

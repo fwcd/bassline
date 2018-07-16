@@ -23,13 +23,11 @@
 	"devDependencies": {
 		"@types/wavesurfer": "git+https://github.com/d10221/wavesurfer-typescript.git#84c54489488493723f63a66519ba7f56328b756a",
 		"electron": "^2.0.4",
-		"jsmediatags": "^3.8.1",
 		"tslint": "^5.10.0",
 		"typescript": "^2.8.3"
 	},
 	"dependencies": {
-		"wavesurfer.js": "^2.0.6",
-		"datatables.net": "^1.10.19",
-		"datatables.net-dt": "^1.10.19"
+		"jsmediatags": "^3.8.1",
+		"wavesurfer.js": "^2.0.6"
 	}
 }
