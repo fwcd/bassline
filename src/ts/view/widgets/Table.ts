@@ -13,6 +13,11 @@ interface TableModel {
 	sorter?: (a: TableRow, b: TableRow) => number; // -1 = correct order, 1 = swap order
 }
 
+interface SortDescriptor {
+	column: number;
+	ascending: boolean;
+}
+
 export class Table implements ViewNode {
 	private element = document.createElement("table");
 	private thead: HTMLTableSectionElement;
@@ -22,6 +27,7 @@ export class Table implements ViewNode {
 	private model: TableModel = {
 		rows: new Observable<TableRow[]>([])
 	};
+	private sortDescriptor?: SortDescriptor;
 	
 	public constructor(htmlClass?: string) {
 		if (htmlClass) {
@@ -60,12 +66,50 @@ export class Table implements ViewNode {
 			removeChilds(this.thead);
 		}
 		this.columnHeaders = newChild(this.thead, "tr");
-		columnHeaders.forEach(it => {
-			newChild(this.columnHeaders, "th").innerText = it;
+		columnHeaders.forEach((colHeader, colIndex) => {
+			let header = newChild(this.columnHeaders, "th");
+			header.innerText = colHeader;
+			
+			// Sort when clicking on header
+			header.addEventListener("click", () => {
+				if (this.sortDescriptor && this.sortDescriptor.column == colIndex) {
+					// Already sorting this column, thus cycling ascending/descending/none modes
+					this.cycleCurrentSort();
+				} else {
+					this.sortByColumn(colIndex, true);
+				}
+				
+				// Set sorting indicator if currently sorting
+				if (this.sortDescriptor) {
+					let indicator = (this.sortDescriptor.ascending ? "^" : "v");
+					header.innerText = colHeader + " " + indicator;
+				} else {
+					header.innerText = colHeader;
+				}
+			});
 		});
 	}
 	
-	public sortColumn(columnIndex: number, ascending: boolean): void {
+	private cycleCurrentSort(): void {
+		let columnIndex = this.sortDescriptor.column;
+		if (this.sortDescriptor.ascending) {
+			this.sortByColumn(columnIndex, false);
+		} else { // is descending
+			this.resetSort();
+		}
+	}
+	
+	public resetSort(): void {
+		this.sortDescriptor = undefined;
+		this.model.sorter = undefined;
+		this.fireModelUpdate();
+	}
+	
+	public sortByColumn(columnIndex: number, ascending: boolean): void {
+		this.sortDescriptor = {
+			column: columnIndex,
+			ascending: ascending
+		};
 		this.model.sorter = (rowA, rowB) => {
 			let cellA = rowA.cells.get()[columnIndex];
 			let cellB = rowB.cells.get()[columnIndex];
