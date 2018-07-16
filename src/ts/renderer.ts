@@ -2,6 +2,7 @@ import { DeckView } from "./view/deck/DeckView";
 import { DeckModel } from "./model/deck/DeckModel";
 import { WaveformAudioPlayer } from "./view/waveform/WaveformAudioPlayer";
 import { CentralFaderPanel } from "./view/fader/CentralFaderPanel";
+import { LibraryView } from "./view/library/LibraryView";
 
 function createDeckByIndex(index: number): DeckModel {
 	let model = new DeckModel();
@@ -23,7 +24,10 @@ function rendererMain(): void {
 		createDeckByIndex(2),
 		createDeckByIndex(3)
 	];
-	new CentralFaderPanel(decks[0], decks[1], decks[2], decks[3]).placeIn(document.getElementById("centralfaderpanel"));
+	new CentralFaderPanel(decks[0], decks[1], decks[2], decks[3])
+		.placeIn(document.getElementById("centralfaderpanel"));
+	new LibraryView()
+		.placeIn(document.getElementById("library"));
 }
 
 rendererMain();

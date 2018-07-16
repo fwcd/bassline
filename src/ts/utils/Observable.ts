@@ -1,4 +1,5 @@
 import { ListenerList } from "./ListenerList";
+import { NoSuchElementException } from "./NoSuchElementException";
 
 export class Observable<T> {
 	private value?: T;
@@ -9,7 +10,26 @@ export class Observable<T> {
 	}
 	
 	public get(): T {
+		this.assertPresent();
 		return this.value;
+	}
+	
+	public assertPresent(): void {
+		if (!this.isPresent()) {
+			throw <NoSuchElementException>{
+				message: "Tried to get non-present value"
+			};
+		}
+	}
+	
+	public isPresent(): boolean {
+		if (this.value) { return true; } else { return false; }
+	}
+	
+	public use(consumer: (T) => void): void {
+		this.assertPresent();
+		consumer(this.value);
+		this.listeners.fireWith(this.value);
 	}
 	
 	public set(value: T): void {
