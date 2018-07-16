@@ -7,12 +7,21 @@ export function appendBreak(element: HTMLElement): void {
 }
 
 /**
+ * Creates and appends a new DOM element as a child to another element.
+ */
+export function newChild<K extends keyof HTMLElementTagNameMap>(parent: HTMLElement, childTagName: K): HTMLElementTagNameMap[K] {
+	let element = document.createElement(childTagName);
+	parent.appendChild(element);
+	return element;
+}
+
+/**
  * Creates a branch of new nested child elements
  * in the DOM tree underneath the parent element
  * from the corresponding element names.
  */
-export function newNestedChilds(parent: HTMLElement, ...childElementNames: string[]): HTMLElement {
-	let childElements = childElementNames.map(it => document.createElement(it));
+export function newNestedChilds(parent: HTMLElement, ...childTagNames: string[]): HTMLElement {
+	let childElements = childTagNames.map(it => document.createElement(it));
 	return addNestedChilds(parent, ...childElements);
 }
 

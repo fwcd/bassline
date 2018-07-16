@@ -121,6 +121,10 @@ body {
 
 /* Library styles */
 
+th {
+	background-color: rgb(58, 58, 58);
+}
+
 #library {
 	background-color: rgb(32, 32, 32);
 	display: grid;
@@ -134,5 +138,19 @@ body {
 }
 
 .library-contents {
+	width: 100%;
+	table-layout: fixed;
 	background-color: rgb(31, 31, 31);
+}
+
+.library-name-col {
+	width: 50%;
+}
+
+.library-artist-col {
+	width: 40%;
+}
+
+.library-bpm-col {
+	width: 10%;
 }

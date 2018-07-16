@@ -7,12 +7,13 @@ export class LibraryContentsView implements ViewNode {
 	
 	public constructor(model: LibraryModel, htmlClass?: string) {
 		this.table = new Table(htmlClass);
+		this.table.setColumnClasses("library-name-col", "library-artist-col", "library-bpm-col");
 		this.table.setColumnHeaders("Name", "Artist", "BPM");
 		
 		model.entries.listen(entries => {
 			this.table.clearRows();
 			entries.forEach(entry => {
-				let bpm: string = (entry.bpm + "") || "?";
+				let bpm: string = (entry.bpm || 0) + "";
 				this.table.appendRow(entry.name, entry.artist, bpm);
 			});
 		});
