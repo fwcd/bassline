@@ -15,8 +15,7 @@ export class WaveformModel {
 	waveformData = new Observable<Float32Array>();
 	
 	public constructor(audioFile: string, dataPoints: number, context: AudioContext) {
-		let source = context.createBufferSource();
-		let buffer = fs.readFile(audioFile, (error, buffer) => {
+		fs.readFile(audioFile, (error, buffer) => {
 			context.decodeAudioData(toArrayBuffer(buffer))
 				.then(audioBuffer => {
 					this.waveformData.set(this.createWaveformData(audioBuffer, dataPoints))
