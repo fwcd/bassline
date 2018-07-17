@@ -13,12 +13,26 @@ function createDeckByIndex(index: number): DeckModel {
 	deckElement.addEventListener("mouseover", () => { model.focused.set(true); });
 	deckElement.addEventListener("mouseout", () => { model.focused.set(false); });
 	
-	new DeckView(model).placeIn(deckElement);
+	new DeckView(model, deckElement);
 	new WaveformView(model, waveformElement, index);
 	return model;
 }
 
+function addGlobalEventHandlers(): void {
+	// Prevent Electron from opening dragged files inside the window
+	
+	document.addEventListener("dragover", event => {
+		event.preventDefault();
+		return false;
+	});
+	document.addEventListener("drop", event => {
+		event.preventDefault();
+	});
+}
+
 function rendererMain(): void {
+	addGlobalEventHandlers();
+	
 	let decks = [
 		createDeckByIndex(0),
 		createDeckByIndex(1),

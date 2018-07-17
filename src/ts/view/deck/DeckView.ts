@@ -7,16 +7,19 @@ import { Label } from "../widgets/Label";
 import { appendBreak } from "../viewutils";
 import { AudioBackend } from "../audio/AudioBackend";
 import { HTMLAudio } from "../audio/HTMLAudio";
+import { FileDropTarget } from "../dragndrop/FileDropTarget";
 
-export class DeckView implements ViewNode {
+export class DeckView implements ViewNode, FileDropTarget {
 	private model: DeckModel;
 	private audio: AudioBackend & ViewNode = new HTMLAudio(); // TODO: Use WebAudio instead
 	private inputChooser: DeckInputChooser;
 	private trackName = new Label("No track", "deck-track-name");
 	private trackArtist = new Label("No artist", "deck-track-artist");
 	private playPause = new SwapButton("play", "deck-button");
+	private element: HTMLElement;
 	
-	public constructor(model: DeckModel) {
+	public constructor(model: DeckModel, element: HTMLElement) {
+		this.element = element;
 		this.model = model;
 		this.inputChooser = new DeckInputChooser(model);
 		this.audio.bind(model);
@@ -38,17 +41,30 @@ export class DeckView implements ViewNode {
 			this.trackName.setText(info.name);
 			this.trackArtist.setText(info.artist);
 		});
+		
+		element.addEventListener("drop", event => {
+			let files = event.dataTransfer.files;
+			if (files.length > 0) {
+				this.onDrop(files.item(0).path);
+			}
+		});
+		
+		this.trackName.placeIn(this.element);
+		appendBreak(this.element);
+		this.trackArtist.placeIn(this.element);
+		appendBreak(this.element);
+		appendBreak(this.element);
+		this.inputChooser.placeIn(this.element);
+		appendBreak(this.element);
+		this.playPause.placeIn(this.element);
+		this.audio.placeIn(this.element);
 	}
 	
 	public placeIn(parent: HTMLElement): void {
-		this.trackName.placeIn(parent);
-		appendBreak(parent);
-		this.trackArtist.placeIn(parent);
-		appendBreak(parent);
-		appendBreak(parent);
-		this.inputChooser.placeIn(parent);
-		appendBreak(parent);
-		this.playPause.placeIn(parent);
-		this.audio.placeIn(parent);
+		parent.appendChild(this.element);
+	}
+	
+	public onDrop(filePath: string): void {
+		this.model.loadedAudioFile.set(filePath);
 	}
 }

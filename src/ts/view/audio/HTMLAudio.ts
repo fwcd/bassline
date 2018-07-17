@@ -42,6 +42,7 @@ export class HTMLAudio implements AudioBackend, ViewNode {
 		model.loadedAudioFile.listen(filePath => {
 			let url = "file://" + filePath;
 			this.element.src = url;
+			model.playing.update(false);
 		});
 		model.positionInSec.pollListen(pos => {
 			this.element.currentTime = pos;
