@@ -1,9 +1,9 @@
 import { DeckView } from "./view/deck/DeckView";
 import { DeckModel } from "./model/deck/DeckModel";
-import { WaveformAudioPlayer } from "./view/waveform/WaveformAudioPlayer";
 import { CentralFaderPanel } from "./view/fader/CentralFaderPanel";
 import { LibraryView } from "./view/library/LibraryView";
 import { LibraryModel } from "./model/library/LibraryModel";
+import { WaveformView } from "./view/waveform/WaveformView";
 
 function createDeckByIndex(index: number): DeckModel {
 	let model = new DeckModel();
@@ -14,7 +14,7 @@ function createDeckByIndex(index: number): DeckModel {
 	deckElement.addEventListener("mouseout", () => { model.focused.set(false); });
 	
 	new DeckView(model).placeIn(deckElement);
-	new WaveformAudioPlayer(model, waveformElement);
+	new WaveformView(model, waveformElement);
 	return model;
 }
 

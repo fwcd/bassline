@@ -9,7 +9,7 @@ export function appendBreak(element: HTMLElement): void {
 /**
  * Creates and appends a new DOM element as a child to another element.
  */
-export function newChild<K extends keyof HTMLElementTagNameMap>(parent: HTMLElement, childTagName: K): HTMLElementTagNameMap[K] {
+export function newChild<K extends keyof HTMLElementTagNameMap>(parent: HTMLElement, childTagName: K | string): HTMLElementTagNameMap[K] {
 	let element = document.createElement(childTagName);
 	parent.appendChild(element);
 	return element;

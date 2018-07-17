@@ -1,7 +1,8 @@
 import { ViewNode } from "../ViewNode";
 import { Observable } from "../../utils/Observable";
+import { AudioBackend } from "./AudioBackend";
 
-export class BasicAudioDeck implements ViewNode {
+export class HTMLAudio implements AudioBackend, ViewNode {
 	private element: HTMLAudioElement = document.createElement("audio");
 	isPlaying = new Observable(false);
 	
@@ -13,10 +14,11 @@ export class BasicAudioDeck implements ViewNode {
 		this.element.addEventListener("play", () => {
 			this.isPlaying.set(true);
 		});
+		this.element.controls = false;
 	}
 	
-	public load(file: File): void {
-		let url = "file://" + file.path;
+	public load(filePath: string): void {
+		let url = "file://" + filePath;
 		this.element.src = url;
 	}
 	

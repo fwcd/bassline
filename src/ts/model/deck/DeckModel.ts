@@ -11,6 +11,7 @@ export class DeckModel {
 	trackInfo: Observable<TrackInfo> = this.loadedAudioFile.deriveAsync((file, self) => {
 		readTrackInfo(file, info => self.set(info))
 	});
+	audioContext = new AudioContext();
 	
 	public play(): void {
 		this.shouldPlay.set(true);

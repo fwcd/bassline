@@ -2,13 +2,15 @@ import { DeckInputChooser } from "./DeckInputChooser";
 import { ViewNode } from "../ViewNode";
 import { SwapButton } from "../widgets/SwapButton";
 import { Image } from "../widgets/Image";
-import { WaveformAudioPlayer } from "../waveform/WaveformAudioPlayer";
 import { DeckModel } from "../../model/deck/DeckModel";
 import { Label } from "../widgets/Label";
 import { appendBreak } from "../viewutils";
+import { AudioBackend } from "../audio/AudioBackend";
+import { HTMLAudio } from "../audio/HTMLAudio";
 
 export class DeckView implements ViewNode {
 	private model: DeckModel;
+	private audio: AudioBackend & ViewNode = new HTMLAudio(); // TODO: Use WebAudio instead
 	private inputChooser: DeckInputChooser;
 	private trackName = new Label("No track", "deck-track-name");
 	private trackArtist = new Label("No artist", "deck-track-artist");
@@ -28,6 +30,17 @@ export class DeckView implements ViewNode {
 				action: () => { this.model.pause(); }
 			}
 		});
+		model.loadedAudioFile.listen(file => {
+			this.audio.load(file);
+		});
+		model.shouldPlay.listen(shouldPlay => {
+			if (shouldPlay) {
+				this.audio.play();
+			} else {
+				this.audio.pause();
+			}
+			this.model.playing.set(shouldPlay);
+		});
 		model.playing.listen(playing => {
 			this.playPause.swap(playing ? "pause" : "play");
 		});
@@ -46,5 +59,6 @@ export class DeckView implements ViewNode {
 		this.inputChooser.placeIn(parent);
 		appendBreak(parent);
 		this.playPause.placeIn(parent);
+		this.audio.placeIn(parent);
 	}
 }
