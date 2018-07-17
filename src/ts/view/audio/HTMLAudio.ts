@@ -22,6 +22,10 @@ export class HTMLAudio implements AudioBackend, ViewNode {
 		this.element.src = url;
 	}
 	
+	public setFaderVolume(faderVolume: number): void {
+		this.element.volume = faderVolume;
+	}
+	
 	public play(): void {
 		this.element.play();
 	}

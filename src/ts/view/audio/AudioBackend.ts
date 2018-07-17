@@ -3,5 +3,7 @@ export interface AudioBackend {
 	
 	pause(): void;
 	
+	setFaderVolume(faderVolume: number): void;
+	
 	load(filePath: string): void;
 }

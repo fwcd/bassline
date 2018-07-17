@@ -12,7 +12,7 @@ export class WaveformView implements ViewNode {
 	
 	private model: Observable<WaveformModel>;
 	private debouncer = new Debouncer();
-	private smoothingFactor = 1;
+	private smoothingFactor = 0.05;
 	private currentWidth: number;
 	private currentHeight: number;
 	

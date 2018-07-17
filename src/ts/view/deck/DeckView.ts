@@ -33,6 +33,9 @@ export class DeckView implements ViewNode {
 		model.loadedAudioFile.listen(file => {
 			this.audio.load(file);
 		});
+		model.fader.listen(faderVolume => {
+			this.audio.setFaderVolume(faderVolume);
+		});
 		model.shouldPlay.listen(shouldPlay => {
 			if (shouldPlay) {
 				this.audio.play();
