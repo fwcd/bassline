@@ -26,7 +26,7 @@ export class WaveformView implements ViewNode {
 	
 	private progressColor = "#666666";
 	private remainingColor = "#FFFFFF"
-	private smoothingFactor = 0.05;
+	private smoothingFactor = 0.02;
 	
 	public constructor(deckModel: DeckModel, element: HTMLElement, deckIndex: number) {
 		this.deckModel = deckModel;
@@ -52,9 +52,7 @@ export class WaveformView implements ViewNode {
 		this.element.appendChild(this.svg);
 		
 		let svgStyle = this.svg.style;
-		svgStyle.fill = "none";
-		svgStyle.stroke = "white";
-		svgStyle.strokeWidth = "1px";
+		svgStyle.fill = "white";
 		svgStyle.width = "100%";
 		svgStyle.height = "100%";
 		
@@ -143,13 +141,22 @@ export class WaveformView implements ViewNode {
 		let scaleDenom = 4 * maxValue;
 		
 		let dx = this.currentWidth / dataPoints;
-		for (let i=0; i<dataPoints; i++) {
+		
+		function appendPathSegment(i: number, height: number): void {
 			let x = i * dx;
-			let y = (0.5 - (data[i] / scaleDenom)) * this.currentHeight;
+			let y = (0.5 - (data[i] / scaleDenom)) * height;
 			path += "L " + x + " " + y + " ";
 		}
+		// Iterate positives
+		for (let i=0; i<dataPoints; i+=2) {
+			appendPathSegment(i, this.currentHeight);
+		}
+		// Iterate negatives backwards
+		for (let i=dataPoints-1; i>=0; i-=2) {
+			appendPathSegment(i, this.currentHeight);
+		}
 		
-		//path += "V " + this.currentHeight + " H 0 Z";
+		path += "V " + this.currentHeight + " H 0 Z";
 		return path;
 	}
 	

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import { Observable } from "../../utils/Observable";
-import { average } from "../../utils/MathUtils";
+import { posAndNegAverage, notNaNOr } from "../../utils/MathUtils";
 
 /*
  * Source: https://gist.github.com/bodyflex/e4f6c9ec0fdea9450fd9303dd088b96d
@@ -12,6 +12,10 @@ function toArrayBuffer(b: Buffer): ArrayBuffer {
 }
 
 export class WaveformModel {
+	/**
+	 * Formatted like this:
+	 * [+, -, +, -, ...]
+	 */
 	waveformData = new Observable<Float32Array>();
 	
 	public constructor(audioFile: string, dataPoints: number, context: AudioContext) {
@@ -29,16 +33,18 @@ export class WaveformModel {
 		let rightChannel = audioBuffer.getChannelData(1);
 		let values = new Float32Array(dataPoints);
 		
-		let dataWindow = Math.round(leftChannel.length / dataPoints);
+		let dataWindow = Math.round(leftChannel.length / dataPoints) * 4;
 		let valueIndex = 0;
 		let buffer: number[] = [];
 		
 		for (let i=0; i<leftChannel.length; i++) {
-			let avg = leftChannel[i]; // TODO
-			buffer.push(avg);
+			buffer.push(leftChannel[i]);
+			buffer.push(rightChannel[i]);
 			
 			if (buffer.length >= dataWindow) {
-				values[valueIndex++] = average(buffer);
+				let avg = posAndNegAverage(buffer);
+				values[valueIndex++] = notNaNOr(avg.positive, 0);
+				values[valueIndex++] = notNaNOr(avg.negative, 0);
 				buffer = [];
 			}
 		}
