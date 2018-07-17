@@ -19,6 +19,7 @@ export class DeckView implements ViewNode {
 	public constructor(model: DeckModel) {
 		this.model = model;
 		this.inputChooser = new DeckInputChooser(model);
+		this.audio.bind(model);
 		
 		this.playPause.setStates({
 			play: {
@@ -29,20 +30,6 @@ export class DeckView implements ViewNode {
 				node: Image.ofAsset("icons/pause.svg", "deck-icon"),
 				action: () => { this.model.pause(); }
 			}
-		});
-		model.loadedAudioFile.listen(file => {
-			this.audio.load(file);
-		});
-		model.fader.listen(faderVolume => {
-			this.audio.setFaderVolume(faderVolume);
-		});
-		model.shouldPlay.listen(shouldPlay => {
-			if (shouldPlay) {
-				this.audio.play();
-			} else {
-				this.audio.pause();
-			}
-			this.model.playing.set(shouldPlay);
 		});
 		model.playing.listen(playing => {
 			this.playPause.swap(playing ? "pause" : "play");

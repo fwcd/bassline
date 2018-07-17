@@ -1,9 +1,5 @@
+import { DeckModel } from "../../model/deck/DeckModel";
+
 export interface AudioBackend {
-	play(): void;
-	
-	pause(): void;
-	
-	setFaderVolume(faderVolume: number): void;
-	
-	load(filePath: string): void;
+	bind(model: DeckModel): void;
 }

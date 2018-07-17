@@ -61,4 +61,12 @@ export class Observable<T> {
 		this.listen(value => mapper(value, result));
 		return result;
 	}
+	
+	public orElse(defaultValue: T): T {
+		if (this.isPresent()) {
+			return this.value;
+		} else {
+			return defaultValue;
+		}
+	}
 }
