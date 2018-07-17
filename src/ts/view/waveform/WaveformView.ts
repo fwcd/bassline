@@ -12,7 +12,7 @@ export class WaveformView implements ViewNode {
 	
 	private model: Observable<WaveformModel>;
 	private debouncer = new Debouncer();
-	private smoothingFactor = 2;
+	private smoothingFactor = 1;
 	private currentWidth: number;
 	private currentHeight: number;
 	
@@ -24,8 +24,12 @@ export class WaveformView implements ViewNode {
 		this.svg.appendChild(this.svgPath);
 		this.element.appendChild(this.svg);
 		
-		this.svg.style.width = "100%";
-		this.svg.style.height = "100%";
+		let svgStyle = this.svg.style;
+		svgStyle.fill = "none";
+		svgStyle.stroke = "white";
+		svgStyle.strokeWidth = "1px";
+		svgStyle.width = "100%";
+		svgStyle.height = "100%";
 		this.svg.setAttribute("preserveAspectRatio", "none");
 		
 		// Resize listeners
@@ -33,6 +37,12 @@ export class WaveformView implements ViewNode {
 		window.addEventListener("resize", () => {
 			this.debouncer.executeMaybe(() => {
 				this.updateSize();
+				if (this.model.isPresent()) {
+					let waveformData = this.model.get().waveformData;
+					if (waveformData.isPresent()) {
+						this.repaint(waveformData.get());
+					}
+				}
 			});
 		});
 		this.updateSize();
@@ -64,12 +74,16 @@ export class WaveformView implements ViewNode {
 	private createSVGPath(data: Float32Array): string {
 		let maxValue = data.reduce((a, b) => Math.max(a, b));
 		let path = "M 0 " + this.currentHeight + " ";
+		let dataPoints = data.length;
 		
-		for (let i=0; i<data.length; i++) {
-			path += "L " + (i * this.smoothingFactor) + " " + ((1 - data[i] / maxValue) * this.currentHeight) + " ";
+		let dx = this.currentWidth / dataPoints;
+		for (let i=0; i<dataPoints; i++) {
+			let x = i * dx;
+			let y = (0.5 - data[i] / (4 * maxValue)) * this.currentHeight;
+			path += "L " + x + " " + y + " ";
 		}
 		
-		path += "V " + this.currentHeight + " H 0 Z";
+		//path += "V " + this.currentHeight + " H 0 Z";
 		return path;
 	}
 	

@@ -35,7 +35,7 @@ export class WaveformModel {
 		let buffer: number[] = [];
 		
 		for (let i=0; i<leftChannel.length; i++) {
-			let avg = (leftChannel[i] + rightChannel[i]) / 2;
+			let avg = leftChannel[i]; // TODO
 			buffer.push(avg);
 			
 			if (buffer.length >= dataWindow) {
