@@ -3,7 +3,6 @@ import { ViewNode } from "../ViewNode";
 import { WaveformModel } from "../../model/waveform/WaveformModel";
 import { Observable } from "../../utils/Observable";
 import { Debouncer } from "../../utils/Debouncer";
-import { newChild } from "../viewutils";
 
 /*
  * Source: https://gist.github.com/bodyflex/e4f6c9ec0fdea9450fd9303dd088b96d
@@ -13,6 +12,7 @@ import { newChild } from "../viewutils";
 export class WaveformView implements ViewNode {
 	private element: HTMLElement;
 	private svg: SVGSVGElement;
+	private svgGroup: SVGGElement;
 	private svgMask: SVGMaskElement;
 	private svgPath: SVGPathElement;
 	private svgProgressRect: SVGRectElement;
@@ -21,13 +21,16 @@ export class WaveformView implements ViewNode {
 	private deckModel: DeckModel;
 	private model: Observable<WaveformModel>;
 	private debouncer = new Debouncer();
+	
+	private waveformXOffset = 0;
 	private currentWidth: number;
 	private currentHeight: number;
 	
 	private progressColor = "#666666";
 	private remainingColor = "#FFFFFF"
-	private smoothingFactor = 0.02;
-	private zoomFactor = 3;
+	private smoothingFactor = 0.2;
+	private zoomFactor = 4;
+	private useSmoothTransitions = true;
 	
 	public constructor(deckModel: DeckModel, element: HTMLElement, deckIndex: number) {
 		this.deckModel = deckModel;
@@ -35,6 +38,7 @@ export class WaveformView implements ViewNode {
 		
 		const svgNamespace = "http://www.w3.org/2000/svg";
 		this.svg = document.createElementNS(svgNamespace, "svg");
+		this.svgGroup = document.createElementNS(svgNamespace, "g");
 		this.svgMask = document.createElementNS(svgNamespace, "mask");
 		this.svgPath = document.createElementNS(svgNamespace, "path");
 		this.svgProgressRect = document.createElementNS(svgNamespace, "rect");
@@ -47,21 +51,32 @@ export class WaveformView implements ViewNode {
 		this.svgRemainingRect.setAttribute("mask", maskAttribute);
 		
 		this.svgMask.appendChild(this.svgPath);
-		this.svg.appendChild(this.svgMask);
-		this.svg.appendChild(this.svgProgressRect);
-		this.svg.appendChild(this.svgRemainingRect);
+		this.svgGroup.appendChild(this.svgMask);
+		this.svgGroup.appendChild(this.svgProgressRect);
+		this.svgGroup.appendChild(this.svgRemainingRect);
+		this.svg.appendChild(this.svgGroup);
 		this.element.appendChild(this.svg);
 		
+		let elementStyle = this.element.style;
+		elementStyle.position = "relative";
+		elementStyle.overflow = "hidden";
+		
 		let svgStyle = this.svg.style;
+		svgStyle.position = "absolute";
+		svgStyle.top = "0px";
+		svgStyle.left = "0px";
 		svgStyle.fill = "white";
-		svgStyle.width = "100%";
-		svgStyle.height = "100%";
 		
 		let progressStyle = this.svgProgressRect.style;
 		progressStyle.fill = this.progressColor;
 		
 		let remainingStyle = this.svgRemainingRect.style;
 		remainingStyle.fill = this.remainingColor;
+		
+		if (this.useSmoothTransitions) {
+			let duration = "0.5s";
+			this.svgGroup.style.transition = "transform " + duration;
+		}
 		
 		this.svg.setAttribute("preserveAspectRatio", "none");
 		
@@ -108,7 +123,7 @@ export class WaveformView implements ViewNode {
 	}
 	
 	private toAudioPos(xPos: number): number {
-		return (xPos / (this.currentWidth * this.zoomFactor)) * this.deckModel.durationInSec.get();
+		return ((xPos - this.waveformXOffset) / (this.currentWidth * this.zoomFactor)) * this.deckModel.durationInSec.get();
 	}
 	
 	private updateSize(): void {
@@ -124,15 +139,21 @@ export class WaveformView implements ViewNode {
 		this.svg.setAttribute("viewBox", "0 0 " + width + " " + height);
 	}
 	
-	private getCurrentXOffset(): number {
+	private getProgressXOffset(): number {
 		return this.currentWidth * this.deckModel.progressInPercent() * this.zoomFactor;
 	}
 	
+	private getWaveformXOffset(): number {
+		return (this.currentWidth / 2) - this.getProgressXOffset();
+	}
+	
 	private updateProgressAndRemaining(): void {
-		let offset = this.getCurrentXOffset();
+		this.waveformXOffset = this.getWaveformXOffset();
+		this.svgGroup.style.transform = "translateX(" + this.waveformXOffset + "px)";
+		let offset = this.getProgressXOffset();
 		this.svgProgressRect.style.width = offset + "px";
 		this.svgRemainingRect.setAttribute("x", offset + "");
-		this.svgRemainingRect.style.width = (this.currentWidth - offset) + "px";
+		this.svgRemainingRect.style.width = ((this.currentWidth * this.zoomFactor) - offset) + "px";
 	}
 	
 	private repaint(waveformData: Float32Array): void {
@@ -142,10 +163,10 @@ export class WaveformView implements ViewNode {
 	private createSVGPath(data: Float32Array): string {
 		let maxValue = data.reduce((a, b) => Math.max(a, b));
 		let path = "M 0 " + this.currentHeight + " ";
-		let dataPoints = data.length / this.zoomFactor;
+		let dataPoints = data.length;
 		let scaleDenom = 4 * maxValue;
 		
-		let dx = this.currentWidth / dataPoints;
+		let dx = (this.currentWidth * this.zoomFactor) / dataPoints;
 		
 		function appendPathSegment(i: number, height: number): void {
 			let x = i * dx;
