@@ -27,6 +27,7 @@ export class WaveformView implements ViewNode {
 	private progressColor = "#666666";
 	private remainingColor = "#FFFFFF"
 	private smoothingFactor = 0.02;
+	private zoomFactor = 3;
 	
 	public constructor(deckModel: DeckModel, element: HTMLElement, deckIndex: number) {
 		this.deckModel = deckModel;
@@ -107,7 +108,7 @@ export class WaveformView implements ViewNode {
 	}
 	
 	private toAudioPos(xPos: number): number {
-		return (xPos / this.currentWidth) * this.deckModel.durationInSec.get();
+		return (xPos / (this.currentWidth * this.zoomFactor)) * this.deckModel.durationInSec.get();
 	}
 	
 	private updateSize(): void {
@@ -123,11 +124,15 @@ export class WaveformView implements ViewNode {
 		this.svg.setAttribute("viewBox", "0 0 " + width + " " + height);
 	}
 	
+	private getCurrentXOffset(): number {
+		return this.currentWidth * this.deckModel.progressInPercent() * this.zoomFactor;
+	}
+	
 	private updateProgressAndRemaining(): void {
-		let percent = this.deckModel.progressInPercent();
-		this.svgProgressRect.style.width = (this.currentWidth * percent) + "px";
-		this.svgRemainingRect.setAttribute("x", this.currentWidth * percent + "");
-		this.svgRemainingRect.style.width = (this.currentWidth * (1 - percent)) + "px";
+		let offset = this.getCurrentXOffset();
+		this.svgProgressRect.style.width = offset + "px";
+		this.svgRemainingRect.setAttribute("x", offset + "");
+		this.svgRemainingRect.style.width = (this.currentWidth - offset) + "px";
 	}
 	
 	private repaint(waveformData: Float32Array): void {
@@ -137,7 +142,7 @@ export class WaveformView implements ViewNode {
 	private createSVGPath(data: Float32Array): string {
 		let maxValue = data.reduce((a, b) => Math.max(a, b));
 		let path = "M 0 " + this.currentHeight + " ";
-		let dataPoints = data.length;
+		let dataPoints = data.length / this.zoomFactor;
 		let scaleDenom = 4 * maxValue;
 		
 		let dx = this.currentWidth / dataPoints;
