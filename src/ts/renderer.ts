@@ -14,7 +14,7 @@ function createDeckByIndex(index: number): DeckModel {
 	deckElement.addEventListener("mouseout", () => { model.focused.set(false); });
 	
 	new DeckView(model, deckElement);
-	new WaveformView(model, waveformElement, index);
+	new WaveformView(model, waveformElement);
 	return model;
 }
 
