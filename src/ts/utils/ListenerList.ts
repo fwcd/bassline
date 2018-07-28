@@ -1,8 +1,12 @@
 export class ListenerList<T> {
 	private listeners: ((event: T) => void)[] = [];
 	
-	public listen(listener: (event: T) => void): void {
+	public add(listener: (event: T) => void): void {
 		this.listeners.push(listener);
+	}
+	
+	public remove(listener: (event: T) => void): void {
+		this.listeners.splice(this.listeners.indexOf(listener), 1);
 	}
 	
 	public fire(): void {

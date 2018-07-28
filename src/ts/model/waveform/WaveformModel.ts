@@ -31,13 +31,14 @@ export class WaveformModel {
 	private createWaveformData(audioBuffer: AudioBuffer, dataPoints: number): Float32Array {
 		let leftChannel = audioBuffer.getChannelData(0);
 		let rightChannel = audioBuffer.getChannelData(1);
+		let channelLength = leftChannel.length;
 		let values = new Float32Array(dataPoints);
 		
-		let dataWindow = Math.round(leftChannel.length / dataPoints) * 4;
+		let dataWindow = Math.round(channelLength / dataPoints) * 4;
 		let valueIndex = 0;
 		let buffer: number[] = [];
 		
-		for (let i=0; i<leftChannel.length; i++) {
+		for (let i=0; i<channelLength; i++) {
 			buffer.push(leftChannel[i]);
 			buffer.push(rightChannel[i]);
 			

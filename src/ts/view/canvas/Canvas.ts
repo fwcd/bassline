@@ -42,7 +42,7 @@ export class Canvas implements ViewNode, DragLock {
 			this.root.onMouseUp(this.toCanvasEvent(event));
 		});
 		this.root.dragLock = this;
-		this.root.updateListeners.listen(() => this.repaint());
+		this.root.updateListeners.add(() => this.repaint());
 	}
 	
 	public add(node: RenderNode): void {

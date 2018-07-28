@@ -29,6 +29,10 @@ export class TwoWayObservable<T> {
 		this.actual.listen(listener);
 	}
 	
+	public unlisten(listener: (actual: T) => void): void {
+		this.actual.unlisten(listener);
+	}
+	
 	public get(): T {
 		return this.actual.get();
 	}

@@ -28,7 +28,6 @@ export class WaveformView implements ViewNode {
 	private waveformColor = "white"
 	private smoothingFactor = 0.2;
 	private zoomFactor = 4;
-	private useSmoothTransitions = true;
 	
 	public constructor(deckModel: DeckModel, element: HTMLElement) {
 		this.deckModel = deckModel;
@@ -56,11 +55,6 @@ export class WaveformView implements ViewNode {
 		svgStyle.fill = this.waveformColor;
 		
 		this.svgProgressOverlay.style.fill = this.progressColor;
-		
-		if (this.useSmoothTransitions) {
-			let duration = "0.5s";
-			this.svgGroup.style.transition = "transform " + duration;
-		}
 		
 		this.svg.setAttribute("preserveAspectRatio", "none");
 		

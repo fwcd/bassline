@@ -42,12 +42,16 @@ export class Observable<T> {
 	}
 	
 	public listen(listener: (newValue: T) => void): void {
-		this.listeners.listen(listener);
+		this.listeners.add(listener);
 		if (this.value) {
 			// Fire this listener once upon adding if
 			// the value is present already.
 			listener(this.value);
 		}
+	}
+	
+	public unlisten(listener: (newValue: T) => void): void {
+		this.listeners.remove(listener);
 	}
 	
 	public derive<R>(mapper: (value: T) => R): Observable<R> {
