@@ -10,7 +10,7 @@ export class RenderNode {
 	updateListeners = new ListenerList<void>();
 	
 	public addChild(child: RenderNode): void {
-		child.updateListeners.listen(() => { this.updateListeners.fire(); });
+		child.updateListeners.add(() => { this.updateListeners.fire(); });
 		child.dragLock = this.dragLock;
 		this.childs.push(child);
 	}
