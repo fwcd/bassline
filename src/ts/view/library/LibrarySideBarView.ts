@@ -3,7 +3,7 @@ import { LibraryModel } from "../../model/library/LibraryModel";
 import { Button } from "../widgets/Button";
 import { Label } from "../widgets/Label";
 import { remote } from "electron";
-import { appendBreak } from "../viewutils";
+import { appendBreak } from "../ViewUtils";
 import { TextField } from "../widgets/TextField";
 
 export class LibrarySideBarView implements ViewNode {

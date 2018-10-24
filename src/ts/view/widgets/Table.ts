@@ -1,5 +1,5 @@
 import { ViewNode } from "../ViewNode";
-import { removeChilds, newTableRow, newChild } from "../viewutils";
+import { removeChilds, newTableRow, newChild } from "../ViewUtils";
 import { Observable } from "../../utils/Observable";
 import { strContains } from "../../utils/StringUtils";
 

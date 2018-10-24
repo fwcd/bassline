@@ -4,7 +4,7 @@ import { SwapButton } from "../widgets/SwapButton";
 import { Image } from "../widgets/Image";
 import { DeckModel } from "../../model/deck/DeckModel";
 import { Label } from "../widgets/Label";
-import { appendBreak } from "../viewutils";
+import { appendBreak } from "../ViewUtils";
 import { AudioBackend } from "../audio/AudioBackend";
 import { HTMLAudio } from "../audio/HTMLAudio";
 import { FileDropTarget } from "../dragndrop/FileDropTarget";
