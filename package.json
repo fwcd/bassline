@@ -21,7 +21,7 @@
 	"author": "fwcd",
 	"license": "MIT",
 	"devDependencies": {
-		"electron": "^2.0.4",
+		"electron": "^3.0.10",
 		"tslint": "^5.10.0",
 		"typescript": "^2.8.3"
 	},
